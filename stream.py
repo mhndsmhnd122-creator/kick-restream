@@ -37,7 +37,7 @@ def run_stream():
         "-c:a",
         "aac",
         "-b:a",
-        "128k",
+        "320k",
         "-fflags",
         "+genpts",
         "-f",
