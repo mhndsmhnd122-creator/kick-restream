@@ -2,8 +2,8 @@ import subprocess
 import time
 import sys
 
-RESTREAM_KEY = "re_11725544_event1cd98b642dcb49be89dbbda911e43626"
-# تم تحديث رابط القناة إلى Peerless
+# تم تحديث المفتاح الجديد هنا
+RESTREAM_KEY = "re_11725544_event2df9f7e5ed39403f83084897d25d38e1"
 KICK_CHANNEL = "https://kick.com/Peerless"
 RTMP_DEST = f"rtmp://live.restream.io/live/{RESTREAM_KEY}"
 
