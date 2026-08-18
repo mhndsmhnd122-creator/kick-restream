@@ -3,7 +3,8 @@ import time
 import sys
 
 RESTREAM_KEY = "re_11725544_event1cd98b642dcb49be89dbbda911e43626"
-KICK_CHANNEL = "https://kick.com/seagull"
+# تم تحديث رابط القناة إلى Peerless
+KICK_CHANNEL = "https://kick.com/Peerless"
 RTMP_DEST = f"rtmp://live.restream.io/live/{RESTREAM_KEY}"
 
 MAX_RUN_TIME = 19800 
@@ -14,19 +15,22 @@ def run_stream():
         if time.time() - start_time > MAX_RUN_TIME:
             sys.exit(0)
             
-        command = ["streamlink", "--stdout", "--http-header", "User-Agent=Mozilla/5.0", KICK_CHANNEL, "720p,720p60,best"]
+        print("جاري تشغيل البث من قناة Peerless...")
+        
+        command = [
+            "streamlink", "--stdout",
+            "--http-header", "User-Agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            KICK_CHANNEL, "720p,720p60,best"
+        ]
+        
         p1 = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         
-        # إضافة فلتر النص "Peerless" فوق الـ GIF
-        # drawtext يضع النص باللون الأبيض وحجم 30
+        # دمج الـ GIF وصوت 320k
         ffmpeg_command = [
             "ffmpeg", "-y",
             "-i", "pipe:0",
             "-ignore_loop", "0", "-i", "logo.gif",
-            "-filter_complex", 
-            "[1:v]scale=250:-1[img];"
-            "[0:v][img]overlay=(main_w-overlay_w)/2:main_h-overlay_h-120[bg];"
-            "[bg]drawtext=text='Peerless':x=(main_w-text_w)/2:y=main_h-80:fontsize=30:fontcolor=white:shadowcolor=black:shadowx=2:shadowy=2",
+            "-filter_complex", "[1:v]scale=250:-1[img];[0:v][img]overlay=(main_w-overlay_w)/2:main_h-overlay_h-80",
             "-c:v", "libx264", "-preset", "veryfast",
             "-c:a", "aac", "-b:a", "320k",
             "-f", "flv", RTMP_DEST
@@ -35,6 +39,7 @@ def run_stream():
         p2 = subprocess.Popen(ffmpeg_command, stdin=p1.stdout)
         p1.stdout.close()
         p2.wait()
+        
         time.sleep(5)
 
 if __name__ == "__main__":
