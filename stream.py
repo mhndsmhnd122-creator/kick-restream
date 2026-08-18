@@ -2,8 +2,8 @@ import subprocess
 import time
 import sys
 
-# تم تحديث المفتاح الجديد هنا
-RESTREAM_KEY = "re_11725544_event2df9f7e5ed39403f83084897d25d38e1"
+# تم تحديث المفتاح الجديد
+RESTREAM_KEY = "re_11725544_event1f24e3174647428d86fc1329252bbf36"
 KICK_CHANNEL = "https://kick.com/Peerless"
 RTMP_DEST = f"rtmp://live.restream.io/live/{RESTREAM_KEY}"
 
@@ -15,7 +15,7 @@ def run_stream():
         if time.time() - start_time > MAX_RUN_TIME:
             sys.exit(0)
             
-        print("جاري تشغيل البث من قناة Peerless...")
+        print("جاري تشغيل البث من قناة Peerless مع ضبط الإعدادات...")
         
         command = [
             "streamlink", "--stdout",
@@ -25,7 +25,7 @@ def run_stream():
         
         p1 = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         
-        # دمج الـ GIF وصوت 320k
+        # الإعدادات المطلوبة: GIF أسفل المنتصف، صوت 320k
         ffmpeg_command = [
             "ffmpeg", "-y",
             "-i", "pipe:0",
